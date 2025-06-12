@@ -137,8 +137,9 @@ class SocialMediaIcon extends StatelessWidget {
   SocialMediaIcon({required this.iconPath, required this.url});
 
   Future<void> _launchURL() async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }
@@ -147,7 +148,9 @@ class SocialMediaIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _launchURL,
+      onTap: () {
+        _launchURL();
+      },
       child: CircleAvatar(
         radius: 24.0,
         backgroundImage: AssetImage(iconPath),
